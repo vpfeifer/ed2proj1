@@ -18,6 +18,6 @@ locacao readLocacao();
 void viewLocacao(locacao l);
 
 //Grava locacao no arquivo no formato tamid|filme|cliente|devolucao
-void saveLocacao(locacao l,FILE *arq);
+int saveLocacao(locacao l,FILE *arq);
 
 

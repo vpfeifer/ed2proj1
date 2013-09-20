@@ -26,8 +26,6 @@ void insertIndexOnFile(indice *index)
     fwrite(&index->offset,sizeof(int),1,ind);
   }
   
-  fflush(ind);
-  
   closeIndex();
 }
 
@@ -51,7 +49,7 @@ void removeIndex(int id)
 {
 }
 
-indice * findIndexByID(indice *lista,unsigned int id)
+indice * findIndexByID(indice *lista,int id)
 {  
    indice *index;
     
@@ -75,7 +73,7 @@ void getAllIndexesOnFile(indice **lista)
     
     while(count<tam)
     {
-        indice *i=(indice *)malloc(sizeof(indice*));
+        indice *i=(indice *)malloc(sizeof(indice));
 
         fread(&i->id_locacao,sizeof(int),1,ind);
         fread(&i->offset,sizeof(int),1,ind);

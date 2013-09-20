@@ -43,7 +43,7 @@ void viewLocacao(locacao l)
 }
 
 //Grava locacao no arquivo no formato tamid|filme|cliente|devolucao
-void saveLocacao(locacao l,FILE *arq)
+int saveLocacao(locacao l,FILE *arq)
 {
   fseek(arq,0,SEEK_END);
   
@@ -71,9 +71,7 @@ void saveLocacao(locacao l,FILE *arq)
   //escreve |filme|cliente|data de devolução no arquivo
   fwrite(&buffer,sizeof(buffer),1,arq);
 
-  printf("\n\nLocacao salva com sucesso!\n\n");
-  
   fflush(arq);
   
-  system("PAUSE");
+  return offset;
 }

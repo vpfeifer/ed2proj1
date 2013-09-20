@@ -22,12 +22,12 @@ int main()
   indice *indices = NULL;
   
   getAllIndexesOnFile(&indices);
-
-    FILE *arq;
+  
+  FILE *arq;
     
-    unsigned int option = 0; //opção do usuário no menu
+  unsigned int option = 0,aux=0;
     
-    indice *i;
+  indice *i;
     
     if(arq=fopen("principal.txt","a+"))
     {
@@ -37,42 +37,72 @@ int main()
         
         printIndexes(indices);
         
-        fflush(stdin);
         menu();
         
         printf("\n\nEscolha uma opcao : ");
         scanf("%d",&option);
         
+        system("cls");
+                    
         switch(option)
         {
           case 0:
             break;
           case 1:
-            system("cls");
             
             printf("========= CADASTRO DE LOCACAO ==========\n\n");
             
             locacao l = readLocacao();
             
-            saveLocacao(l,arq);
+            aux = saveLocacao(l,arq);
             
             //insere no indice
             i=(indice *)malloc(sizeof(indice *));
             i->id_locacao=l.id;
-            i->offset=ftell(arq);
+            i->offset=aux;
             i->prox = NULL;
             
             insertIndexOnFile(i);
             
             insertIndexOnList(&indices,i);
             
-            break;
+            printf("\n\nLocacao salva com sucesso!\n\n");
             
+            break;
+          
+          case 5:
+            printf("========= BUSCAR LOCACAO POR ID ==========\n\n");
+            
+            printf("Digite o ID da locacao que deseja buscar : ");
+            scanf("%d",&aux);
+            
+            i = findIndexByID(indices,aux);
+            
+            if(i==NULL)
+              printf("\n\nLocacao não encontrada!");
+            else
+            {
+              printf("\n%d %d\n",i->id_locacao,i->offset);
+              
+              fseek(arq,i->offset,SEEK_SET);
+              
+              fread(&aux,sizeof(int),1,arq);
+              
+              printf("\n%d\n",aux);
+              
+              fread(&aux,sizeof(int),1,arq);
+              
+              printf("\n%d\n",aux);
+            }
+            
+            break;
           default:
             printf("Opcao invalida!\n\n");
-            system("PAUSE");
             break;
         }
+        
+        if(option!=0)
+          system("PAUSE");
       }while(option!=0);
       
     }
@@ -82,8 +112,8 @@ int main()
     }
     
     fclose(arq);
-      
-      return 1;
+    
+  return 1;
 }
 
 void menu()
