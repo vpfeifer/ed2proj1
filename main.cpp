@@ -22,12 +22,10 @@ int main()
   indice *indices = NULL;
   
   getAllIndexesOnFile(&indices);
-  
 
-    
     FILE *arq;
     
-    unsigned int option = 0,offset=0; //opção do usuário no menu
+    unsigned int option = 0; //opção do usuário no menu
     
     indice *i;
     
@@ -35,13 +33,14 @@ int main()
     {
       do
       {
-       system("cls");
+        system("cls");
         
         printIndexes(indices);
         
+        fflush(stdin);
         menu();
         
-        printf("\n\nEscolha uma op\207\706o : ");
+        printf("\n\nEscolha uma opcao : ");
         scanf("%d",&option);
         
         switch(option)
@@ -51,16 +50,16 @@ int main()
           case 1:
             system("cls");
             
-            printf("========= CADASTRO DE LOCA\207\706O ==========\n\n");
+            printf("========= CADASTRO DE LOCACAO ==========\n\n");
             
             locacao l = readLocacao();
             
-            offset = saveLocacao(l,arq);
+            saveLocacao(l,arq);
             
             //insere no indice
             i=(indice *)malloc(sizeof(indice *));
             i->id_locacao=l.id;
-            i->offset=offset;
+            i->offset=ftell(arq);
             i->prox = NULL;
             
             insertIndexOnFile(i);
@@ -70,7 +69,7 @@ int main()
             break;
             
           default:
-            printf("Op\207\706o invalida!\n\n");
+            printf("Opcao invalida!\n\n");
             system("PAUSE");
             break;
         }
@@ -83,8 +82,8 @@ int main()
     }
     
     fclose(arq);
-    
-    return 1;
+      
+      return 1;
 }
 
 void menu()

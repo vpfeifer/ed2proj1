@@ -26,6 +26,8 @@ void insertIndexOnFile(indice *index)
     fwrite(&index->offset,sizeof(int),1,ind);
   }
   
+  fflush(ind);
+  
   closeIndex();
 }
 

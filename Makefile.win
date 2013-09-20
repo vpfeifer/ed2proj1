@@ -7,12 +7,12 @@ WINDRES = windres.exe
 RES  = 
 OBJ  = main.o locacao.o indice.o $(RES)
 LINKOBJ  = main.o locacao.o indice.o $(RES)
-LIBS =  -L"C:/Dev-Cpp/lib" -L"C:/SDL/SDL-1.2.15/lib"  
+LIBS =  -L"C:/Dev-Cpp/lib" -L"C:/SDL/SDL-1.2.15/lib" -g  
 INCS =  -I"C:/Dev-Cpp/include"  -I"C:/SDL/SDL-1.2.15/include" 
 CXXINCS =  -I"C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/Dev-Cpp/include/c++/3.4.2/backward"  -I"C:/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"C:/Dev-Cpp/include/c++/3.4.2"  -I"C:/Dev-Cpp/include"  -I"C:/SDL/SDL-1.2.15/include"  -I"C:/Users/vpfeifer/Documents/ed2/Projeto1" 
 BIN  = ED2_Projeto1.exe
-CXXFLAGS = $(CXXINCS)   -O0
-CFLAGS = $(INCS)   -O0
+CXXFLAGS = $(CXXINCS)   -g
+CFLAGS = $(INCS)   -g
 RM = rm -f
 
 .PHONY: all all-before all-after clean clean-custom
@@ -26,11 +26,11 @@ clean: clean-custom
 $(BIN): $(OBJ)
 	$(CPP) $(LINKOBJ) -o "ED2_Projeto1.exe" $(LIBS)
 
-main.o: main.cpp
+main.o: main.cpp C:/Dev-Cpp/include/c++/3.4.2/cstdlib   C:/Dev-Cpp/include/c++/3.4.2/iostream locacao.h indice.h
 	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
 
-locacao.o: locacao.c
+locacao.o: locacao.c locacao.h C:/Dev-Cpp/include/c++/3.4.2/cstdlib   C:/Dev-Cpp/include/c++/3.4.2/iostream indice.h
 	$(CPP) -c locacao.c -o locacao.o $(CXXFLAGS)
 
-indice.o: indice.cpp
+indice.o: indice.cpp indice.h C:/Dev-Cpp/include/c++/3.4.2/cstdlib   C:/Dev-Cpp/include/c++/3.4.2/iostream
 	$(CPP) -c indice.cpp -o indice.o $(CXXFLAGS)
