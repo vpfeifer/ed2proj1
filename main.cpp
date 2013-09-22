@@ -29,7 +29,7 @@ int main()
     
   indice *i;
     
-    if(arq=fopen("principal.txt","a+"))
+    if(openLocacao())
     {
       do
       {
@@ -54,10 +54,10 @@ int main()
             
             locacao l = readLocacao();
             
-            aux = saveLocacao(l,arq);
+            aux = saveLocacao(l);
             
             //insere no indice
-            i=(indice *)malloc(sizeof(indice *));
+            i=(indice *)malloc(sizeof(indice));
             i->id_locacao=l.id;
             i->offset=aux;
             i->prox = NULL;
@@ -70,7 +70,88 @@ int main()
             
             break;
           
+          case 2:
+            
+            printf("========= ALTERAR LOCACAO ==========\n\n");
+            
+            printf("Digite o ID da locacao que deseja alterar : ");
+            scanf("%d",&aux);
+            
+            
+            i = findIndexByID(indices,aux);
+            
+            if(i==NULL)
+              printf("\n\nLocacao nao encontrada\n\n!");
+            else
+            { 
+              locacao l = findLocacaoByOffset(i->offset);
+              
+              int oldLength = 7+strlen(l.filme)+strlen(l.cliente)+strlen(l.data_devolucao);
+              
+              printf("\n\n1. Filme\n");
+              printf("2. Cliente\n");
+              printf("3. Data de Devolucao\n");  
+              
+              printf("\n\nEscolha o campo que deseja alterar: ");
+              
+              scanf("%d",&aux);
+              
+              char newValue[255];
+              printf("\n\nDigite o novo valor: ");
+              fflush(stdin);
+              gets(newValue);
+              
+              switch(aux)
+              {
+                case 1:
+                  strcpy(l.filme,newValue);
+                case 2:
+                  strcpy(l.cliente,newValue);
+                case 3:
+                  strcpy(l.data_devolucao,newValue);
+              }
+              
+              int newLength = 7+strlen(l.filme)+strlen(l.cliente)+strlen(l.data_devolucao);
+              
+              if(newLength<=oldLength)
+              {
+                //insere no mesmo lugar
+              }
+              else
+              {
+               //exclui e insere denovo 
+              }
+            }
+          
+          break;
+          
+          case 3:
+            
+            printf("========= REMOVER LOCACAO ==========\n\n");
+            
+            printf("Digite o ID da locacao que deseja remover : ");
+            scanf("%d",&aux);
+            
+            
+            i = findIndexByID(indices,aux);
+            
+            if(i==NULL)
+              printf("\n\nLocacao nao encontrada\n\n!");
+            else
+            { 
+              insertInAvailableList(i->offset);
+
+              removeIndexFromFile(i,&indices);
+              
+              indices=NULL;
+              
+              getAllIndexesOnFile(&indices);
+            }
+           
+          break;
+                    
           case 5:
+            
             printf("========= BUSCAR LOCACAO POR ID ==========\n\n");
             
             printf("Digite o ID da locacao que deseja buscar : ");
@@ -79,20 +160,12 @@ int main()
             i = findIndexByID(indices,aux);
             
             if(i==NULL)
-              printf("\n\nLocacao não encontrada!");
+              printf("\n\nLocacao nao encontrada\n\n!");
             else
-            {
-              printf("\n%d %d\n",i->id_locacao,i->offset);
+            { 
+              locacao l = findLocacaoByOffset(i->offset);
               
-              fseek(arq,i->offset,SEEK_SET);
-              
-              fread(&aux,sizeof(int),1,arq);
-              
-              printf("\n%d\n",aux);
-              
-              fread(&aux,sizeof(int),1,arq);
-              
-              printf("\n%d\n",aux);
+              viewLocacao(l);  
             }
             
             break;
@@ -111,7 +184,7 @@ int main()
       printf("Erro ao abrir o arquivo!");
     }
     
-    fclose(arq);
+    closeLocacao();
     
   return 1;
 }
@@ -125,5 +198,6 @@ void menu()
   printf("3. Remover Locacao\n");
   printf("4. Compactar arquivo\n");
   printf("5. Buscar pelo codigo da Locacao\n");
-  printf("6. Buscar pelo nome do filme");   
+  printf("6. Buscar pelo nome do filme\n");
+  printf("0. Sair");   
 }

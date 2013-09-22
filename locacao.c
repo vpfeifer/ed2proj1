@@ -1,6 +1,31 @@
 #include "locacao.h"
 #include "indice.h"
 
+FILE *arq;
+
+int openLocacao()
+{
+    if(!(arq=fopen("principal.txt","r+")))
+    {
+      if(!(arq=fopen("principal.txt","w+")))
+        return 0;
+    } 
+      //Insere Cabeçalho inicial se não existir
+      fseek(arq,0,SEEK_END);
+      
+      int pos = ftell(arq),nullValue=-1;
+      
+      if(pos==0)
+        fwrite(&nullValue,sizeof(int),1,arq);
+      
+      return 1;
+}
+
+void closeLocacao()
+{
+  fclose(arq);
+}
+
 //Pede ao usuario para digitar uma locação e salva na struct locacao
 locacao readLocacao()
 {
@@ -43,7 +68,7 @@ void viewLocacao(locacao l)
 }
 
 //Grava locacao no arquivo no formato tamid|filme|cliente|devolucao
-int saveLocacao(locacao l,FILE *arq)
+int saveLocacao(locacao l)
 {
   fseek(arq,0,SEEK_END);
   
@@ -74,4 +99,69 @@ int saveLocacao(locacao l,FILE *arq)
   fflush(arq);
   
   return offset;
+}
+
+locacao findLocacaoByOffset(int offset)
+{
+  //Posiciona o ponteiro do arquivo para começar a ler
+  fseek(arq,offset,SEEK_SET);
+  
+  //Lê o tamanho do registro
+  int tam;            
+  fread(&tam,sizeof(int),1,arq);
+  
+  //Lê o id da Locação
+  int id;
+  fread(&id,sizeof(int),1,arq);
+  
+  //Lê as strings do registro            
+  char buffer[tam-4];
+  fread(&buffer,sizeof(char),tam,arq);
+  
+  char * pch;
+  char * arr[4];
+  int i=1;
+  
+  pch = strtok (buffer,"|");
+  arr[0] = pch;
+  
+  while (pch != NULL)
+  {
+    //printf ("%s\n",pch);
+    pch = strtok (NULL, "|");
+    arr[i]=pch;
+    i++;
+  }
+  
+  //Cria o objeto para retornar
+  locacao l;
+  
+  l.id = id;
+  strcpy(l.filme,arr[0]);
+  strcpy(l.cliente,arr[1]);
+  strcpy(l.data_devolucao,arr[2]);
+  
+  return l;
+}
+
+void insertInAvailableList(int offset)
+{
+  //coloca o ponteiro no cabeçalho do arquivo
+  fseek(arq,0,SEEK_SET);
+  
+  //le o cabeçalho
+  int prox;
+  fread(&prox,sizeof(int),1,arq);
+  
+  //escreve o offset do novo primeiro elemento da lista de disponiveis
+  fseek(arq,0,SEEK_SET);
+  fwrite(&offset,sizeof(int),1,arq);
+  
+  //escreve <tamanho do registro>#<proximo elemento da lista>
+  fseek(arq,offset+4,SEEK_SET);
+  
+  char sep='#';
+  fwrite(&sep,sizeof(char),1,arq);
+  
+  fwrite(&prox,sizeof(int),1,arq);
 }

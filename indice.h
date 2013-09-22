@@ -21,9 +21,6 @@ void insertIndexOnFile(indice *index);
 //Insere um novo indice na lista de indices
 void insertIndexOnList(indice **lista,indice *index);
 
-//Remove um indice a partir do código da locação
-void removeIndex(int id);
-
 //Função para buscar elementos na lista de Indices
 indice * findIndexByID(indice *lista,int id);
 
@@ -35,3 +32,6 @@ int getIndexCount();
 
 //Função para exibir na tela todos os indices da lista (finalidade de teste)
 void printIndexes(indice *lista);
+
+//Remove indice do arquivo de indices
+void removeIndexFromFile(indice *i,indice **lista);

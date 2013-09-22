@@ -11,6 +11,12 @@ typedef struct locacao
   char data_devolucao[15];       //Data de Devolução do filme
 };
 
+//Abre o arquivo de indice
+int openLocacao();
+
+//Fecha o arquivo de indice
+void closeLocacao();
+
 //Pede ao usuario para digitar uma locação e salva na struct locacao
 locacao readLocacao();
 
@@ -18,6 +24,10 @@ locacao readLocacao();
 void viewLocacao(locacao l);
 
 //Grava locacao no arquivo no formato tamid|filme|cliente|devolucao
-int saveLocacao(locacao l,FILE *arq);
+int saveLocacao(locacao l);
 
+//Procura por uma locação no arquivo a partir do offset no arquivo
+locacao findLocacaoByOffset(int offset);
 
+//Insere um novo item na lista de espaços disponiveis do arquivo
+void insertInAvailableList(int offset);
