@@ -27,12 +27,11 @@ void closeLocacao()
 }
 
 //Pede ao usuario para digitar uma locação e salva na struct locacao
-locacao readLocacao()
+locacao readLocacao(int id)
 {
       locacao l;
-
-      printf("Digite o ID da locacao : ");
-      scanf("%d",&l.id);
+        
+      l.id=id;
         
       printf("\n");
       
@@ -72,7 +71,7 @@ int saveLocacao(locacao l)
 {
   fseek(arq,0,SEEK_END);
   
-  int offset = ftell(arq);
+  int offset=ftell(arq);
   
   //separador
   char sep = '|';
@@ -86,6 +85,56 @@ int saveLocacao(locacao l)
   
   //seleciona o tamanho = 4 bytes do id + tamanho da string manipulada anteriormente
   int size = 4 + sizeof(buffer);
+  
+  //verifica se tem espaço na lista de disponiveis
+  fseek(arq,0,SEEK_SET);//coloca o ponteiro no inicio do arquivo
+  
+  int prox=0,tam=0,oAnt=ftell(arq);
+  
+  //Lê o offset do primeiro item
+  fread(&prox,sizeof(int),1,arq);
+  
+  if(prox!=-1)
+  {
+    //Coloca o ponteiro do arquivo na posição do primeiro elemento da lista
+    fseek(arq,prox,SEEK_SET);
+  
+    //Procura por um espaço disponivel para o registro
+    while(prox!=-1)
+    {
+      //Le o tamanho do espaço disponível
+      fread(&tam,sizeof(int),1,arq);
+      
+      //Se couber no espaço
+      if(size<=tam)
+      {
+        //Guarda onde deve ser salvo o novo registro
+        offset=ftell(arq)-4;
+        
+        //Le o proximo
+        fseek(arq,1,SEEK_CUR);
+        fread(&prox,sizeof(int),1,arq);
+        
+        //Escreve o proximo no anterior para remover, o espaço que não está mais disponivel
+        fseek(arq,oAnt,SEEK_SET);
+        fwrite(&prox,sizeof(int),1,arq);
+        
+        prox=-1;
+      }
+      else
+      {
+        //Salva o offset do atual como anterior
+        oAnt=prox;
+        
+        //Le o proximo
+        fseek(arq,1,SEEK_CUR);
+        fread(&prox,sizeof(int),1,arq);
+      }
+    }
+  }
+  
+  //Coloca o ponteiro onde o registro será inserido
+  fseek(arq,offset,SEEK_SET);
   
   //escreve tamanho no arquivo
   fwrite(&size,sizeof(int),1,arq);
@@ -158,10 +207,33 @@ void insertInAvailableList(int offset)
   fwrite(&offset,sizeof(int),1,arq);
   
   //escreve <tamanho do registro>#<proximo elemento da lista>
-  fseek(arq,offset+4,SEEK_SET);
+  fseek(arq,offset+5,SEEK_SET);
   
   char sep='#';
   fwrite(&sep,sizeof(char),1,arq);
   
   fwrite(&prox,sizeof(int),1,arq);
+  
+  fflush(arq);
+}
+
+void updateLocacao(int offset,int newLength,locacao l)
+{
+                  fseek(arq,offset,SEEK_SET);
+                
+                fwrite(&newLength,sizeof(int),1,arq);
+              
+                fwrite(&l.id,sizeof(int),1,arq);
+                
+                char buffer[newLength-4];
+                
+                sprintf(buffer,"|%s|%s|%s",l.filme,l.cliente,l.data_devolucao);
+                
+                fwrite(&buffer,sizeof(buffer),1,arq);
+}
+
+
+void compactar(locacao[] ativas)
+{
+  
 }

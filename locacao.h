@@ -5,6 +5,7 @@
 //Estrutura que representa a locação de um filme no sistema
 typedef struct locacao
 {
+  unsigned int size;              //Tamanho em bytes da locação no arquivo
   unsigned int id;               //código da locação
   char filme[255];               //Nome do filme
   char cliente[255];             //Nome do Cliente
@@ -18,7 +19,7 @@ int openLocacao();
 void closeLocacao();
 
 //Pede ao usuario para digitar uma locação e salva na struct locacao
-locacao readLocacao();
+locacao readLocacao(int id);
 
 //Exibe na tela os dados de uma locacao
 void viewLocacao(locacao l);
@@ -31,3 +32,9 @@ locacao findLocacaoByOffset(int offset);
 
 //Insere um novo item na lista de espaços disponiveis do arquivo
 void insertInAvailableList(int offset);
+
+//Atualiza locação no mesmo offset da antiga
+void updateLocacao(int offset,int newLength,locacao l);
+
+//Função para compactar o arquivo de locações
+void compactar();

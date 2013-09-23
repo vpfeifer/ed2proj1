@@ -44,11 +44,6 @@ void insertIndexOnFile(indice *index)
     
     fflush(ind);
     
-    fseek(ind,0,SEEK_SET);
-    int t=0;
-    fread(&t,sizeof(int),1,ind);
-    printf("\n%d\n",t);
-    
     //insere o indice
     fseek(ind,0,SEEK_END);
     fwrite(&index->id_locacao,sizeof(int),1,ind);
@@ -166,11 +161,6 @@ void removeIndexFromFile(indice *i,indice **lista)
   fseek(ind,0,SEEK_SET);
   fwrite(&cont,sizeof(int),1,ind);
   fflush(ind);
-  
-  int x;
-  fseek(ind,0,SEEK_SET);
-  fread(&x,sizeof(int),1,ind);
-  printf("\n lido %d\n",x);
   }
   
   closeIndex();

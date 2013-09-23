@@ -22,8 +22,6 @@ int main()
   indice *indices = NULL;
   
   getAllIndexesOnFile(&indices);
-  
-  FILE *arq;
     
   unsigned int option = 0,aux=0;
     
@@ -50,24 +48,33 @@ int main()
             break;
           case 1:
             
-            printf("========= CADASTRO DE LOCACAO ==========\n\n");
+            printf("========= CADASTRO DE LOCACAO ==========\n");
             
-            locacao l = readLocacao();
+            printf("\nDigite o codigo da locacao : ");
+            scanf("%d",&aux);
             
-            aux = saveLocacao(l);
+            i = findIndexByID(indices,aux);
             
-            //insere no indice
-            i=(indice *)malloc(sizeof(indice));
-            i->id_locacao=l.id;
-            i->offset=aux;
-            i->prox = NULL;
+            if(i!=NULL)
+              printf("\n\nCodigo ja existe!\n\n");
+            else
+            {
+              locacao l = readLocacao(aux);
             
-            insertIndexOnFile(i);
+              aux = saveLocacao(l);
             
-            insertIndexOnList(&indices,i);
+              //insere no indice
+              i=(indice *)malloc(sizeof(indice));
+              i->id_locacao=l.id;
+              i->offset=aux;
+              i->prox = NULL;
             
-            printf("\n\nLocacao salva com sucesso!\n\n");
+              insertIndexOnFile(i);
             
+              insertIndexOnList(&indices,i);
+            
+              printf("\n\nLocacao salva com sucesso!\n\n");
+            }
             break;
           
           case 2:
@@ -105,10 +112,13 @@ int main()
               {
                 case 1:
                   strcpy(l.filme,newValue);
-                case 2:
+                  break;
+                case 2: 
                   strcpy(l.cliente,newValue);
+                  break;
                 case 3:
                   strcpy(l.data_devolucao,newValue);
+                  break;
               }
               
               int newLength = 7+strlen(l.filme)+strlen(l.cliente)+strlen(l.data_devolucao);
@@ -116,12 +126,34 @@ int main()
               if(newLength<=oldLength)
               {
                 //insere no mesmo lugar
+                updateLocacao(i->offset,newLength,l);
               }
               else
               {
-               //exclui e insere denovo 
+               //exclui e insere denovo
+                
+              insertInAvailableList(i->offset);
+
+              removeIndexFromFile(i,&indices);
+              
+              indices=NULL;
+              
+              getAllIndexesOnFile(&indices);
+              
+              aux = saveLocacao(l);
+            
+              i=(indice *)malloc(sizeof(indice));
+              i->id_locacao=l.id;
+              i->offset=aux;
+              i->prox = NULL;
+            
+              insertIndexOnFile(i);
+            
+              insertIndexOnList(&indices,i);
               }
             }
+          
+            printf("\nLocacao alterada com sucesso!\n");
           
           break;
           
@@ -148,7 +180,19 @@ int main()
               getAllIndexesOnFile(&indices);
             }
            
+           printf("\nLocacao removida com sucesso!\n");
+           
           break;
+          
+          case 4:
+            
+              printf("========= COMPACTAÇÃO DO ARQUIVO ==========\n\n");
+            
+              printf("Em construção...\n\n");
+              
+              compactar();
+          
+          break;  
                     
           case 5:
             
@@ -169,6 +213,15 @@ int main()
             }
             
             break;
+          
+          case 6:
+              
+              printf("========= BUSCAR LOCACAO PELO FILME ==========\n\n");
+            
+              printf("Em construção...");
+          
+          break;  
+          
           default:
             printf("Opcao invalida!\n\n");
             break;
