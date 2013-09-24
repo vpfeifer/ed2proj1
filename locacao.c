@@ -231,9 +231,3 @@ void updateLocacao(int offset,int newLength,locacao l)
                 
                 fwrite(&buffer,sizeof(buffer),1,arq);
 }
-
-
-void compactar(locacao[] ativas)
-{
-  
-}

@@ -190,7 +190,7 @@ int main()
             
               printf("Em construção...\n\n");
               
-              compactar();
+              //compactar();
           
           break;  
                     

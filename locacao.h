@@ -36,5 +36,3 @@ void insertInAvailableList(int offset);
 //Atualiza locação no mesmo offset da antiga
 void updateLocacao(int offset,int newLength,locacao l);
 
-//Função para compactar o arquivo de locações
-void compactar();
