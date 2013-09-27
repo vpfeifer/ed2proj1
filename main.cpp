@@ -33,7 +33,8 @@ int main()
       {
         system("cls");
         
-        printIndexes(indices);
+        //somente para testes
+        //printIndexes(indices);
         
         menu();
         
