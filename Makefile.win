@@ -26,7 +26,7 @@ clean: clean-custom
 $(BIN): $(OBJ)
 	$(CPP) $(LINKOBJ) -o "ED2_Projeto1.exe" $(LIBS)
 
-main.o: main.cpp C:/Dev-Cpp/include/c++/3.4.2/cstdlib   C:/Dev-Cpp/include/c++/3.4.2/iostream locacao.h indice.h
+main.o: main.cpp C:/Dev-Cpp/include/c++/3.4.2/cstdlib   C:/Dev-Cpp/include/c++/3.4.2/iostream locacao.h indice.h secind.h   listinv.h
 	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
 
 locacao.o: locacao.c locacao.h C:/Dev-Cpp/include/c++/3.4.2/cstdlib   C:/Dev-Cpp/include/c++/3.4.2/iostream indice.h
@@ -38,5 +38,5 @@ indice.o: indice.cpp indice.h C:/Dev-Cpp/include/c++/3.4.2/cstdlib   C:/Dev-Cpp/
 secind.o: secind.cpp secind.h C:/Dev-Cpp/include/c++/3.4.2/cstdlib   C:/Dev-Cpp/include/c++/3.4.2/iostream listinv.h
 	$(CPP) -c secind.cpp -o secind.o $(CXXFLAGS)
 
-listinv.o: listinv.cpp listinv.h C:/Dev-Cpp/include/c++/3.4.2/cstdlib   C:/Dev-Cpp/include/c++/3.4.2/iostream
+listinv.o: listinv.cpp listinv.h C:/Dev-Cpp/include/c++/3.4.2/cstdlib   C:/Dev-Cpp/include/c++/3.4.2/iostream locacao.h
 	$(CPP) -c listinv.cpp -o listinv.o $(CXXFLAGS)

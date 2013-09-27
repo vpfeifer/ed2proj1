@@ -14,6 +14,8 @@
 #include <iostream>
 #include "locacao.h"
 #include "indice.h"
+#include "secind.h"
+#include "listinv.h"
 
 void menu();
 
@@ -32,9 +34,6 @@ int main()
       do
       {
         system("cls");
-        
-        //somente para testes
-        //printIndexes(indices);
         
         menu();
         
@@ -74,6 +73,8 @@ int main()
             
               insertIndexOnList(&indices,i);
             
+              insereSecundario(l.filme,l.id);
+                            
               printf("\n\nLocacao salva com sucesso!\n\n");
             }
             break;
@@ -152,9 +153,9 @@ int main()
             
               insertIndexOnList(&indices,i);
               }
+              
+              printf("\nLocacao alterada com sucesso!\n");
             }
-          
-            printf("\nLocacao alterada com sucesso!\n");
           
           break;
           
@@ -266,9 +267,9 @@ int main()
               
               printf("========= BUSCAR LOCACAO PELO FILME ==========\n\n");
             
-              printf("Em construção...");
+              printf("Em construção...\n\n");
               
-              
+              printf("Não foi possível encerrar o indice secundario, apenas insere nos arquivos secInd.txt e listinv.txt\n\n");
               
           break;  
           
