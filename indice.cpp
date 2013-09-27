@@ -165,3 +165,27 @@ void removeIndexFromFile(indice *i,indice **lista)
   
   closeIndex();
 }
+
+
+//zera o contador de indice
+void emptyIndex()
+{
+  if(openIndex())
+  {
+    //Coloca o ponteiro no cabeçalho do arquivo
+    fseek(ind,0,SEEK_SET);
+  
+    //nula a lista de espaços disponiveis
+    int nullValue=0;
+    fwrite(&nullValue,sizeof(int),1,ind);
+  }
+  
+  closeIndex();
+}
+
+
+//Recria o arquivo
+void recreateIndex()
+{
+  ind=fopen("index.txt","w+");
+}

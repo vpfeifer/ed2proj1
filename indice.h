@@ -35,3 +35,10 @@ void printIndexes(indice *lista);
 
 //Remove indice do arquivo de indices
 void removeIndexFromFile(indice *i,indice **lista);
+
+//zera o contador de indice
+void emptyIndex();
+
+
+//Recria o arquivo
+void recreateIndex();

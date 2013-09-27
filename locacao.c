@@ -219,15 +219,33 @@ void insertInAvailableList(int offset)
 
 void updateLocacao(int offset,int newLength,locacao l)
 {
-                  fseek(arq,offset,SEEK_SET);
+  fseek(arq,offset,SEEK_SET);
                 
-                fwrite(&newLength,sizeof(int),1,arq);
+  fwrite(&newLength,sizeof(int),1,arq);
               
-                fwrite(&l.id,sizeof(int),1,arq);
+  fwrite(&l.id,sizeof(int),1,arq);
                 
-                char buffer[newLength-4];
+  char buffer[newLength-4];
                 
-                sprintf(buffer,"|%s|%s|%s",l.filme,l.cliente,l.data_devolucao);
+  sprintf(buffer,"|%s|%s|%s",l.filme,l.cliente,l.data_devolucao);
                 
-                fwrite(&buffer,sizeof(buffer),1,arq);
+  fwrite(&buffer,sizeof(buffer),1,arq);
+}
+
+void nullAvailableList()
+{
+  //Coloca o ponteiro no cabeçalho do arquivo
+  fseek(arq,0,SEEK_SET);
+  
+  //nula a lista de espaços disponiveis
+  int nullValue=-1;
+  fwrite(&nullValue,sizeof(int),1,arq);
+}
+
+//Recria o arquivo
+void recreateLocacao()
+{
+  closeLocacao();
+  
+  arq=fopen("principal.txt","w+");
 }

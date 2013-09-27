@@ -188,9 +188,56 @@ int main()
             
               printf("========= COMPACTAÇÃO DO ARQUIVO ==========\n\n");
             
-              printf("Em construção...\n\n");
+              printf("Em construcao...\n\n");
               
-              //compactar();
+              /*
+              int n,qtd,j;
+              
+              qtd=getIndexCount();
+              
+              recreateLocacao();
+              recreateIndex();
+              
+              nullAvailableList();
+              
+              emptyIndex();
+              
+              indice *cplist,*ax;
+              
+              cplist=indices;
+              
+              n=0;
+              
+              locacao ativas[qtd];
+              
+              while(n<qtd)
+              {
+                ativas[n] = findLocacaoByOffset(cplist->offset);
+                
+                n++;
+                
+                cplist = cplist->prox;
+              }
+              
+              int off;
+              
+              for(j=0;j<n;j++)
+              {
+                off = saveLocacao(ativas[j]);
+                
+                //insere no indice
+                ax=(indice *)malloc(sizeof(indice));
+                ax->id_locacao=ativas[j].id;
+                ax->offset=off;
+                ax->prox = NULL;
+            
+                insertIndexOnFile(i);
+              }
+              
+              indices=NULL;
+              
+              getAllIndexesOnFile(&indices);
+          */
           
           break;  
                     
@@ -219,7 +266,9 @@ int main()
               printf("========= BUSCAR LOCACAO PELO FILME ==========\n\n");
             
               printf("Em construção...");
-          
+              
+              
+              
           break;  
           
           default:

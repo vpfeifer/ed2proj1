@@ -36,3 +36,8 @@ void insertInAvailableList(int offset);
 //Atualiza locação no mesmo offset da antiga
 void updateLocacao(int offset,int newLength,locacao l);
 
+//Nula a lista de disponiveis
+void nullAvailableList();
+
+//Recria o arquivo
+void recreateLocacao();

@@ -5,8 +5,8 @@ CPP  = g++.exe
 CC   = gcc.exe
 WINDRES = windres.exe
 RES  = 
-OBJ  = main.o locacao.o indice.o $(RES)
-LINKOBJ  = main.o locacao.o indice.o $(RES)
+OBJ  = main.o locacao.o indice.o secind.o listinv.o $(RES)
+LINKOBJ  = main.o locacao.o indice.o secind.o listinv.o $(RES)
 LIBS =  -L"C:/Dev-Cpp/lib" -L"C:/SDL/SDL-1.2.15/lib" -g  
 INCS =  -I"C:/Dev-Cpp/include"  -I"C:/SDL/SDL-1.2.15/include" 
 CXXINCS =  -I"C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/Dev-Cpp/include/c++/3.4.2/backward"  -I"C:/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"C:/Dev-Cpp/include/c++/3.4.2"  -I"C:/Dev-Cpp/include"  -I"C:/SDL/SDL-1.2.15/include"  -I"C:/Users/vpfeifer/Documents/ed2/Projeto1" 
@@ -34,3 +34,9 @@ locacao.o: locacao.c locacao.h C:/Dev-Cpp/include/c++/3.4.2/cstdlib   C:/Dev-Cpp
 
 indice.o: indice.cpp indice.h C:/Dev-Cpp/include/c++/3.4.2/cstdlib   C:/Dev-Cpp/include/c++/3.4.2/iostream
 	$(CPP) -c indice.cpp -o indice.o $(CXXFLAGS)
+
+secind.o: secind.cpp secind.h C:/Dev-Cpp/include/c++/3.4.2/cstdlib   C:/Dev-Cpp/include/c++/3.4.2/iostream listinv.h
+	$(CPP) -c secind.cpp -o secind.o $(CXXFLAGS)
+
+listinv.o: listinv.cpp listinv.h C:/Dev-Cpp/include/c++/3.4.2/cstdlib   C:/Dev-Cpp/include/c++/3.4.2/iostream
+	$(CPP) -c listinv.cpp -o listinv.o $(CXXFLAGS)
